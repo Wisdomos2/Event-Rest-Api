@@ -39,6 +39,11 @@ Hateoas 를 만족하고, Self-descriptive message 를 만족하는 Rest-Api를 
 - Spring REST Docs
 - Spring Security OAuth2
 
+## Memo
+- Preference
+  - Plug-in - lombok Plugin install
+  - Annotation Processor - Enable (비동작 가능성 있기 때문.)
+   
 
 
  
