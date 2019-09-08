@@ -43,6 +43,27 @@ Hateoas 를 만족하고, Self-descriptive message 를 만족하는 Rest-Api를 
 - Preference
   - Plug-in - lombok Plugin install
   - Annotation Processor - Enable (비동작 가능성 있기 때문.)
+- Command + Shift + T  : 해당 테스트 코드로 이동.<br>
+- Lombok Annotation을 이용, Build 할 때 알아서 해당 Annotation Code를 추가, Compile 같이 됨.
+- @EqualIsAndHshCode of에 id를 준 이유<br> 
+나중에 참조나 비교시 모든 변수를 가지고 작업이 이루어지면
+      StackOverFlow 발생우려. 
+      <br>id로만 진행하기 위해서 설정.
+      @Data를 안쓰는 이유도, 들어가보면 @EqualsAndHashCode가 변수설정을 하지 않은 채 달려있음.<br>
+      즉 상호참조와 관련하여 StackOvefFlow 발생가능성 있음.
+ 
+ - Replace fo refectoring : "Spring" 블럭 지정 후 Option + Command + V , Local Variable
+ - Autowired?
+   - Springframework에서 지원하는 각 상황에 맞는 의존성 주입 Annotation.
+ - ObjectMapper?
+   - 데이터를 Json으로 바꿔주는 class.
+ - mockMvc.perform(요청)
+ - Ctrl + Option + O : 필요없는 import 제거.
+ - ResponseEntitly 가 뭔지? <br>
+          통신 메시지 관련 header와 body의 값들을 하나의 객체로 저장하는 것이 HttpEntity class<br?
+          Request 부분일 경우 HttpEntity를 상속받은 RequestEntity,<br>
+          Response 부분일 경우 HttpEntity를 상속받은 ResponseEntity.<br>
+ 
    
 
 
