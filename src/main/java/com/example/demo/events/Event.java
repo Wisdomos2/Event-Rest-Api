@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
     @EqualIsAndHshCode of에 id를 준 이유, 나중에 참조나 비교시 모든 변수를 가지고 작업이 이루어지면
     StackOverFlow 발생우려. id로만 진행하기 위해서 설정.
     @Data를 안쓰는 이유도, 들어가보면 @EqualsAndHashCode가 변수설정을 하지 않은 채 달려있음.
-    즉 상호참조와 관련하여 StackOvefFlow 발생가능성 있음. 
+    즉 상호참조와 관련하여 StackOvefFlow 발생가능성 있음.
  */
 
 @Builder @AllArgsConstructor @NoArgsConstructor
