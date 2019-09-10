@@ -18,18 +18,20 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
     HAL_JSON_UTF8_타입으로 data를 보내게 됨.
  */
 public class EventController {
-    /*
-        ResponseEntitly 가 뭔지?
-        통신 메시지 관련 header와 body의 값들을 하나의 객체로 저장하는 것이 HttpEntity class
-        Request 부분일 경우 HttpEntity를 상속받은 RequestEntity,
-        Response 부분일 경우 HttpEntity를 상속받은 ResponseEntity.
-     */
+
+    private final EventRepository eventRepository;
+
+    public EventController(EventRepository eventRepository) {
+        this.eventRepository = eventRepository;
+    }
+
     @PostMapping
     public ResponseEntity createEvent(@RequestBody Event event) {
         /*
             using HATEOS's linkTO, methodOn
          */
-        URI createdUri = linkTo(EventController.class).slash("{id}").toUri();
+        Event newEvent = this.eventRepository.save(event);
+        URI createdUri = linkTo(EventController.class).slash(newEvent.getId()).toUri();
         event.setId(10);
         return ResponseEntity.created(createdUri).body(event);
     }
