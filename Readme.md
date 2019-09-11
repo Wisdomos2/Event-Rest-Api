@@ -63,6 +63,8 @@ Hateoas 를 만족하고, Self-descriptive message 를 만족하는 Rest-Api를 
           통신 메시지 관련 header와 body의 값들을 하나의 객체로 저장하는 것이 HttpEntity class<br?
           Request 부분일 경우 HttpEntity를 상속받은 RequestEntity,<br>
           Response 부분일 경우 HttpEntity를 상속받은 ResponseEntity.<br>
+ - Serialize : 직렬화, 객체를 전송가능한 Json 형태로 만드는 것.
+ - Deserialize : 역직렬화, Json형태를 객채로 만드는 것.
  
    
 

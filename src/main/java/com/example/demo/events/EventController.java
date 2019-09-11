@@ -36,7 +36,7 @@ public class EventController {
             1) using HATEOS's linkTO, methodOn
             2) 원래는 EventDto에 있는 것을 Event에 옮겨 담는 작업을 일일히 해야함.
                 But
-                ModelMapper라는 Library를 사용하면 편함.
+                ModelMapper라는 Library를 사용하면 편함.®
          */
         Event event = modelMapper.map(eventDto, Event.class);
         Event newEvent = this.eventRepository.save(event);

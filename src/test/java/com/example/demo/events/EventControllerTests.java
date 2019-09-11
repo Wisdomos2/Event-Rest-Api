@@ -44,13 +44,13 @@ public class EventControllerTests {
     @Autowired
     ObjectMapper objectMapper;
 
-    //@MockBean
-    //EventRepository eventRepository;
+//    @MockBean
+//    EventRepository eventRepository;
 
 
     @Test
     public void createEvent() throws Exception {
-        Event event = Event.builder()
+        EventDto event = EventDto.builder()
                 .name("Spring")
                 .description("REST API Developerment with springboot")
                 .beginEnrollmentDateTime(LocalDateTime.of(2019,9,8,18,57))
@@ -61,12 +61,8 @@ public class EventControllerTests {
                 .maxPrice(200)
                 .limitOfEnrollment(100)
                 .location("이태원 메이드ㅋㅋㅋㅋ ")
-                .free(true)
-                .offline(false)
-                .eventStatus(EventStatus.PUBLISHED)
                 .build();
 
-        event.setId(10);
         //Mockito.when(eventRepository.save(event)).thenReturn(event);
 
 
@@ -87,4 +83,35 @@ public class EventControllerTests {
                 ;
     }
 
+    @Test
+    public void createEvent_Bad_Request() throws Exception {
+        Event event = Event.builder()
+                .id(100)
+                .name("Spring")
+                .description("REST API Developerment with springboot")
+                .beginEnrollmentDateTime(LocalDateTime.of(2019,9,8,18,57))
+                .closeEnrollmentDateTime(LocalDateTime.of(2019,9,8,18,57))
+                .beginEventDateTime(LocalDateTime.of(2019,9,8,18,57))
+                .endEventDateTime(LocalDateTime.of(2019,9,8,18,57))
+                .basePrice(100)
+                .maxPrice(200)
+                .limitOfEnrollment(100)
+                .location("이태원 메이드ㅋㅋㅋㅋ ")
+                .free(true)
+                .offline(false)
+                .eventStatus(EventStatus.PUBLISHED)
+                .build();
+
+        //Mockito.when(eventRepository.save(event)).thenReturn(event);
+
+
+        // perform 안이 요청, 요청이 갔으면 응답이 있음.
+        mockMvc.perform(post("/api/events/")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .accept(MediaTypes.HAL_JSON)
+                .content(objectMapper.writeValueAsString(event)))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+        ;
+    }
 }
