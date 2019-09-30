@@ -53,10 +53,10 @@ public class EventControllerTests {
         EventDto event = EventDto.builder()
                 .name("Spring")
                 .description("REST API Developerment with springboot")
-                .beginEnrollmentDateTime(LocalDateTime.of(2019,9,8,18,57))
-                .closeEnrollmentDateTime(LocalDateTime.of(2019,9,8,18,57))
-                .beginEventDateTime(LocalDateTime.of(2019,9,8,18,57))
-                .endEventDateTime(LocalDateTime.of(2019,9,8,18,57))
+                .beginEnrollmentDateTime(LocalDateTime.of(2019, 9, 8, 18, 57))
+                .closeEnrollmentDateTime(LocalDateTime.of(2019, 9, 8, 18, 57))
+                .beginEventDateTime(LocalDateTime.of(2019, 9, 8, 18, 57))
+                .endEventDateTime(LocalDateTime.of(2019, 9, 8, 18, 57))
                 .basePrice(100)
                 .maxPrice(200)
                 .limitOfEnrollment(100)
@@ -68,19 +68,19 @@ public class EventControllerTests {
 
         // perform 안이 요청, 요청이 갔으면 응답이 있음.
         mockMvc.perform(post("/api/events/")
-                        .contentType(MediaType.APPLICATION_JSON_UTF8)
-                        .accept(MediaTypes.HAL_JSON)
-                        .content(objectMapper.writeValueAsString(event)))
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .accept(MediaTypes.HAL_JSON)
+                .content(objectMapper.writeValueAsString(event)))
                 .andDo(print())
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("id").exists())
                 .andExpect(header().exists(HttpHeaders.LOCATION))
-                .andExpect(header().string(HttpHeaders.CONTENT_TYPE,MediaTypes.HAL_JSON_UTF8_VALUE))
+                .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaTypes.HAL_JSON_UTF8_VALUE))
                 //해당 입력 막기.
                 .andExpect(jsonPath("id").value(Matchers.not(100)))
                 .andExpect(jsonPath("free").value(Matchers.not(true)))
                 .andExpect(jsonPath("eventStatus").value(EventStatus.DRAFT.name()))
-                ;
+        ;
     }
 
     @Test
@@ -89,10 +89,10 @@ public class EventControllerTests {
                 .id(100)
                 .name("Spring")
                 .description("REST API Developerment with springboot")
-                .beginEnrollmentDateTime(LocalDateTime.of(2019,9,8,18,57))
-                .closeEnrollmentDateTime(LocalDateTime.of(2019,9,8,18,57))
-                .beginEventDateTime(LocalDateTime.of(2019,9,8,18,57))
-                .endEventDateTime(LocalDateTime.of(2019,9,8,18,57))
+                .beginEnrollmentDateTime(LocalDateTime.of(2019, 9, 8, 18, 57))
+                .closeEnrollmentDateTime(LocalDateTime.of(2019, 9, 8, 18, 57))
+                .beginEventDateTime(LocalDateTime.of(2019, 9, 8, 18, 57))
+                .endEventDateTime(LocalDateTime.of(2019, 9, 8, 18, 57))
                 .basePrice(100)
                 .maxPrice(200)
                 .limitOfEnrollment(100)
@@ -114,4 +114,14 @@ public class EventControllerTests {
                 .andExpect(status().isBadRequest())
         ;
     }
+
+    //test 3개 실행을 다하려면, 메서드 밖에서 ctrl shift R
+    @Test
+    public void createEvent_Bad_Request_Empty_Input() throws Exception{
+        EventDto eventDto = EventDto.builder().build();
+        this.mockMvc.perform(post("/api/events"))
+                    .andExpect(status().isBadRequest())
+        ;
+    }
 }
+
