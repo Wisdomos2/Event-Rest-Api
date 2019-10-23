@@ -16,7 +16,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -119,9 +121,12 @@ public class EventControllerTests {
     @Test
     public void createEvent_Bad_Request_Empty_Input() throws Exception{
         EventDto eventDto = EventDto.builder().build();
-        this.mockMvc.perform(post("/api/events"))
+        this.mockMvc.perform(post("/api/events")
+                    .contentType(MediaType.APPLICATION_JSON_UTF8)
+                    .content(this.objectMapper.writeValueAsString(eventDto)))
                     .andExpect(status().isBadRequest())
         ;
     }
+
 }
 
