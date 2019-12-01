@@ -1,0 +1,22 @@
+package com.example.demo.events;
+
+
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
+import org.springframework.hateoas.ResourceSupport;
+
+/*
+* HETEOAS
+* */
+public class EventResource extends ResourceSupport {
+
+    @JsonUnwrapped
+    private Event event;
+    
+    public EventResource(Event event) {
+        this.event = event;
+    }
+
+    public Event getEvent() {
+        return event;
+    }
+}
