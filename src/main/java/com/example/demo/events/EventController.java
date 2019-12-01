@@ -57,13 +57,16 @@ public class EventController {
         Event event = modelMapper.map(eventDto, Event.class);
         event.update();
         Event newEvent = this.eventRepository.save(event);
-        ControllerLinkBuilder selfLinkeBuilder = linkTo(EventController.class).slash(newEvent.getId());
-        URI createdUri = selfLinkeBuilder.toUri();
-        //event.setId(10);
+
+
+
+        /* hateos 관련 link 추가 고나련 코드 */
+        ControllerLinkBuilder selfLinkBuilder = linkTo(EventController.class).slash(newEvent.getId());
+        URI createdUri = selfLinkBuilder.toUri();
+
         EventResource eventResource = new EventResource(event);
-        eventResource.add(linkTo(EventController.class).withRel("query-event"));
-        eventResource.add(selfLinkeBuilder.withSelfRel());
-        eventResource.add(selfLinkeBuilder.withRel("update-event"));
+        eventResource.add(linkTo(EventController.class).withRel("query-events"));
+        eventResource.add(selfLinkBuilder.withRel("update-event"));
         return ResponseEntity.created(createdUri).body(eventResource);
     }
 }
