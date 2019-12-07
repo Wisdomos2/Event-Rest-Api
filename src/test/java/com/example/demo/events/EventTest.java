@@ -21,18 +21,18 @@ public class EventTest {
 
     @Test
     public void javaBean() {
-        //Given
-        String name = "Event";
-        String description = "Spring";
-
-        //When
-        Event event = new Event();
-        event.setName("Event");
-        event.setDescription(description);
-
-        //Then
-        assertThat(event.getName()).isEqualTo(name);
-        assertThat(event.getDescription()).isEqualTo(description);
+//        //Given
+//        String name = "Event";
+//        String description = "Spring";
+//
+//        //When
+//        Event event = new Event();
+//        event.setName("Event");
+//        event.setDescription(description);
+//
+//        //Then
+//        assertThat(event.getName()).isEqualTo(name);
+//        assertThat(event.getDescription()).isEqualTo(description);
         //refectoring : "Spring" 블럭 지정 후 option + Command + V , Local Variable
 
     }
@@ -40,17 +40,17 @@ public class EventTest {
     @Test
     @Parameters(method = "parametersForTestFree")
     public void testFree(int basePrice, int maxPrice, boolean isFree) {
-        //Given
-        Event event = Event.builder()
-                .basePrice(basePrice)
-                .maxPrice(maxPrice)
-                .build();
-
-        //When
-        event.update();
-
-        //Then
-        assertThat(event.isFree()).isEqualTo(isFree);
+//        //Given
+//        Event event = Event.builder()
+//                .basePrice(basePrice)
+//                .maxPrice(maxPrice)
+//                .build();
+//
+//        //When
+//        event.update();
+//
+//        //Then
+//        assertThat(event.getfree).isEqualTo(isFree);
     }
 
     private Object[] parametersForTestFree() {
@@ -65,24 +65,24 @@ public class EventTest {
 
     @Test
     public void testoffline() {
-        Event event = Event.builder()
-                .location("강남역 토즈")
-                .build();
-
-        //When
-        event.update();
-
-        //Then
-        assertThat(event.isOffline()).isTrue();
-        event = Event.builder()
-                .location("강남역 토즈")
-                .build();
-
-        //When
-        event.update();
-
-        //Then
-        assertThat(event.isOffline()).isFalse();
+//        Event event = Event.builder()
+//                .location("강남역 토즈")
+//                .build();
+//
+//        //When
+//        event.update();
+//
+//        //Then
+//        assertThat(event.getoffline).isTrue();
+//        event = Event.builder()
+//                .location("강남역 토즈")
+//                .build();
+//
+//        //When
+//        event.update();
+//
+//        //Then
+//        assertThat(event.getoffline).isFalse();
 
     }
 }
