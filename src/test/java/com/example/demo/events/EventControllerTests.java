@@ -25,7 +25,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 
+import static org.springframework.restdocs.headers.HeaderDocumentation.*;
+import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.linkWithRel;
+import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.links;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -92,7 +96,51 @@ public class EventControllerTests {
                 .andExpect(jsonPath("eventStatus").value(EventStatus.DRAFT.name()))
                 .andExpect(jsonPath("_links.query-events").exists())
                 .andExpect(jsonPath("_links.update-event").exists())
-                .andDo(document("create-event"))
+                .andDo(document("create-event",
+                        links(
+                                linkWithRel("self").description("link to self"),
+                                linkWithRel("query-events").description("link to query-events"),
+                                linkWithRel("update-event").description("link to update an existing")
+                        ),
+                        requestHeaders(
+                                headerWithName(HttpHeaders.ACCEPT).description("accept header"),
+                                headerWithName(HttpHeaders.CONTENT_TYPE).description("content_tpye haader")
+                        ),
+                        requestFields(
+                                fieldWithPath("name").description("Name of new event"),
+                                fieldWithPath("description").description("Description of new event"),
+                                fieldWithPath("beginEnrollmentDateTime").description("date time of beginEnrollment"),
+                                fieldWithPath("closeEnrollmentDateTime").description("date time of closeEnrollmentDateTime"),
+                                fieldWithPath("beginEventDateTime").description("date time of beginEventDateTime"),
+                                fieldWithPath("endEventDateTime").description("date time of endEventDateTime"),
+                                fieldWithPath("location").description("Location of new event"),
+                                fieldWithPath("basePrice").description("BasePrice of new event"),
+                                fieldWithPath("maxPrice").description("M axPrice of new event"),
+                                fieldWithPath("limitOfEnrollment").description("limitOfEnrollment of new event")
+
+                        ),
+                        responseHeaders(
+                                headerWithName(HttpHeaders.LOCATION).description("Location header"),
+                                headerWithName(HttpHeaders.CONTENT_TYPE).description("content type header")
+                        ),
+                        //prefix relax 붙이면 일부분만 문서화 할수 있음. ( 전부다 안하면 error 남.)
+                        relaxedResponseFields(
+                                fieldWithPath("id").description("Id of new event"),
+                                fieldWithPath("name").description("Name of new event"),
+                                fieldWithPath("description").description("Description of new event"),
+                                fieldWithPath("beginEnrollmentDateTime").description("date time of beginEnrollment"),
+                                fieldWithPath("closeEnrollmentDateTime").description("date time of closeEnrollmentDateTime"),
+                                fieldWithPath("beginEventDateTime").description("date time of beginEventDateTime"),
+                                fieldWithPath("endEventDateTime").description("date time of endEventDateTime"),
+                                fieldWithPath("location").description("Location of new event"),
+                                fieldWithPath("basePrice").description("BasePrice of new event"),
+                                fieldWithPath("maxPrice").description("M axPrice of new event"),
+                                fieldWithPath("limitOfEnrollment").description("limitOfEnrollment of new event"),
+                                fieldWithPath("free").description("free yes or no"),
+                                fieldWithPath("offline").description("offline yes or no"),
+                                fieldWithPath("eventStatus").description("eventStatus yes or no")
+                        )
+                        ))
         ;
     }
 

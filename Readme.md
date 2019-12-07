@@ -66,6 +66,25 @@ Hateoas 를 만족하고, Self-descriptive message 를 만족하는 Rest-Api를 
  - Serialize : 직렬화, 객체를 전송가능한 Json 형태로 만드는 것.
  - Deserialize : 역직렬화, Json형태를 객채로 만드는 것.
  
+ 
+ ## Api 문서화
+ - 요청 본문 문서화
+ - 응답 본문 문서화
+ - 링크 문서화
+ - self
+ - query-events
+ - update-event
+ - profile 링크 추가
+ - 요청 헤더 문서화
+ - 요청 필드 문서화
+ - 응답 헤더 문서화
+ - 응답 필드 문서화
+ 
+ - Relaxed 접두어
+   - 장점: 문서 일부분만 테스트 할 수 있다.
+   - 단점: 정확한 문서를 생성하지 못한다.
+
+
    
 
 
