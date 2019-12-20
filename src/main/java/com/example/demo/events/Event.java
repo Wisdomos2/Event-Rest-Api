@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
 public class Event {
 
     @Id @GeneratedValue
-    private Integer id;
+    private Integer Id;
     private String name;
     private String description;
     private LocalDateTime beginEnrollmentDateTime;

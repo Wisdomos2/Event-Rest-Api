@@ -1,6 +1,7 @@
 package com.example.demo.index;
 
 
+import com.example.demo.common.BaseControllerTest;
 import com.example.demo.common.RestDocsConfiguration;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,16 +18,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@RunWith(SpringRunner.class)
-// @WebMvcTest
-@SpringBootTest
-@AutoConfigureMockMvc
-@AutoConfigureRestDocs
-@Import(RestDocsConfiguration.class)
-@ActiveProfiles("test")
-public class IndexControllerTest {
-    @Autowired
-    MockMvc mockMvc;
+
+public class IndexControllerTest extends BaseControllerTest {
 
     @Test
     public void index() throws Exception{
