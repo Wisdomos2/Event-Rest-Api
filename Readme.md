@@ -86,6 +86,19 @@ Hateoas 를 만족하고, Self-descriptive message 를 만족하는 Rest-Api를 
  - Relaxed 접두어
    - 장점: 문서 일부분만 테스트 할 수 있다.
    - 단점: 정확한 문서를 생성하지 못한다.
+   
+   
+### Flow
+ - Event.class : Model data
+ - EventDto.class : Model data의 Validate를 위한 semi-Model data.
+ - EventController.cass : get,put request에 대한 response를 하기 위함.
+ - EventResource.interface : Spring JPA 위한 interface.
+ - EventResource.class : Hateoas를 위해 Link를 달아주기 위함.
+ - EventStatus.class : Enum data.
+ - EventValidator.class  :
+ <br><br>
+ - TestDescription.@interface : Annotation customize(@TestDescription)
+  
 
 
    
