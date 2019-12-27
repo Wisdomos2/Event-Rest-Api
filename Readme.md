@@ -43,7 +43,6 @@ Hateoas 를 만족하고, Self-descriptive message 를 만족하는 Rest-Api를 
 - Preference
   - Plug-in - lombok Plugin install
   - Annotation Processor - Enable (비동작 가능성 있기 때문.)
-- Command + Shift + T  : 해당 테스트 코드로 이동.<br>
 - Lombok Annotation을 이용, Build 할 때 알아서 해당 Annotation Code를 추가, Compile 같이 됨.
 - @EqualIsAndHshCode of에 id를 준 이유<br> 
 나중에 참조나 비교시 모든 변수를 가지고 작업이 이루어지면
@@ -58,15 +57,14 @@ Hateoas 를 만족하고, Self-descriptive message 를 만족하는 Rest-Api를 
  - ObjectMapper?
    - 데이터를 Json으로 바꿔주는 class.
  - mockMvc.perform(요청)
- - Ctrl + Option + O : 필요없는 import 제거.
  - ResponseEntitly 가 뭔지? <br>
           통신 메시지 관련 header와 body의 값들을 하나의 객체로 저장하는 것이 HttpEntity class<br?
           Request 부분일 경우 HttpEntity를 상속받은 RequestEntity,<br>
           Response 부분일 경우 HttpEntity를 상속받은 ResponseEntity.<br>
  - Serialize : 직렬화, 객체를 전송가능한 Json 형태로 만드는 것.
  - Deserialize : 역직렬화, Json형태를 객채로 만드는 것.
- - refectoring : "Spring" 블럭 지정 후 option + Command + V , Local Variable
- - extract Method : option + command + M  
+ - assertThat ( p1, p2) : matcher에 의해 두 인자를 비교함. http://sejong-wiki.appspot.com/assertThat
+ - Spring Docs 적용 : http://woowabros.github.io/experience/2018/12/28/spring-rest-docs.html
  
  
  
@@ -100,8 +98,17 @@ Hateoas 를 만족하고, Self-descriptive message 를 만족하는 Rest-Api를 
  - TestDescription.@interface : Annotation customize(@TestDescription)
   
 
-
+### 단축키
+ - 줄 단위 재정렬 ctrl + alt + I <br>
+ - 필요없는 import 제거 : Ctrl + Option + O <br>
+ - 변수로 빼내기 : option + Command + V <br>
+ - 메소드로 빼내기 : option + command + M <br>
+ - 해당 테스트 코드로 이동 : Command + Shift + T<br>
+ - Select Method to Override/implement : ctrl + O <br>
+ - 참고 : https://lalwr.blogspot.com/2018/04/intellij.html
+ - 
    
 
 
- 
+### Todo
+- Docs적용 :  http://woowabros.github.io/experience/2018/12/28/spring-rest-docs.html
