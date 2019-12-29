@@ -49,6 +49,10 @@ psql -d postgres -U postgres
 \q
 ```
 
+### db connect
+~~~
+\c database
+~~~
 ## application.properties
 
 ### Datasource
