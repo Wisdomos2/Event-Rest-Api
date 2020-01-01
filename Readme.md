@@ -65,6 +65,7 @@ Hateoas 를 만족하고, Self-descriptive message 를 만족하는 Rest-Api를 
  - Deserialize : 역직렬화, Json형태를 객채로 만드는 것.
  - assertThat ( p1, p2) : matcher에 의해 두 인자를 비교함. http://sejong-wiki.appspot.com/assertThat
  - Spring Docs 적용 : http://woowabros.github.io/experience/2018/12/28/spring-rest-docs.html
+ - Serialize -> Dto를 타고 밖으로 나가는 Json을 Custom하여 출력하거나 제한할 수 있음.
  
  
  

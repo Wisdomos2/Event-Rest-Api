@@ -36,14 +36,15 @@ public class AccountService implements UserDetailsService {
                 .orElseThrow(()->new UsernameNotFoundException(username));
 
         //account 객체를 Spring Security가 이해할 수 있는 UserDatails로 타입을 바꿔줌.
-        return new User(account.getEmail(), account.getPassword(), authorities(account.getRoles()));
+        //return new User(account.getEmail(), account.getPassword(), authorities(account.getRoles()));
+        return new AccountAdapter(account);
 
     }
 
-    //account 객체를 Spring Security가 이해할 수 있는 UserDatails로 타입을 바꿔줌.
-    private Collection<? extends GrantedAuthority> authorities(Set<AccountRole> roles) {
-        return roles.stream()
-                .map(r -> new SimpleGrantedAuthority("ROLE_" + r.name()))
-                .collect(Collectors.toSet());
-    }
+//    //account 객체를 Spring Security가 이해할 수 있는 UserDatails로 타입을 바꿔줌.
+//    private Collection<? extends GrantedAuthority> authorities(Set<AccountRole> roles) {
+//        return roles.stream()
+//                .map(r -> new SimpleGrantedAuthority("ROLE_" + r.name()))
+//                .collect(Collectors.toSet());
+//    }
 }

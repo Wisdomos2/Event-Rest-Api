@@ -144,9 +144,6 @@ public class EventControllerTests extends BaseControllerTest {
         ;
     }
 
-    private String getBearerToken() throws Exception {
-        return "Bearer " + getAccessToken();
-    }
 
     @Test
     @TestDescription("입력 받을 수 없는 값을 사용한 경우에 에러가 발생하는 테스트")
@@ -248,10 +245,38 @@ public class EventControllerTests extends BaseControllerTest {
     }
 
     @Test
+    @TestDescription("30개의 이벤트를 10개씩 두번째 페이지 조회하기, 인증토큰포함해서.")
+    public void queryEventsWithAuthentication() throws Exception {
+        //Given
+        IntStream.range(0,30).forEach(i->{
+            this.generateEvent(i);
+        });
+
+
+        //When & Then
+        this.mockMvc.perform(get("/api/events")
+                .header(HttpHeaders.AUTHORIZATION, getBearerToken())
+                .param("page","1")
+                .param("size","10")
+                .param("sort","DESC")
+        )
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("page").exists())
+                .andExpect(jsonPath("_embedded.eventList[0]._links.self").exists())
+                .andExpect(jsonPath("_links.self").exists())
+                .andExpect(jsonPath("_links.profile").exists())
+                .andExpect(jsonPath("_links.create-event").exists())
+                .andDo(document("query-events"))
+        ;
+    }
+
+    @Test
     @TestDescription("기존의 이벤트를 하나 조회하기")
     public void getEvent() throws Exception {
         //given
-        Event event = this.generateEvent(10);
+        Account account = this.createAccount();
+        Event event = this.generateEvent(10,account);
 
         //when & then
         this.mockMvc.perform(get("/api/events/{id}",event.getId()))
@@ -286,7 +311,8 @@ public class EventControllerTests extends BaseControllerTest {
     @TestDescription("이벤트를 정상적으로 수정하기")
     public void updateEvent() throws Exception {
         //Given
-        Event event = this.generateEvent(100);
+        Account account = this.createAccount();
+        Event event = this.generateEvent(100,account);
         EventDto eventDto = this.modelMapper.map(event, EventDto.class);
 
         String eventName = "Updated Event";
@@ -295,7 +321,7 @@ public class EventControllerTests extends BaseControllerTest {
         //When & Then
 
         this.mockMvc.perform(put("/api/events/{id}",event.getId())
-                    .header(HttpHeaders.AUTHORIZATION, getBearerToken())
+                    .header(HttpHeaders.AUTHORIZATION, getBearerToken(false))
                     .contentType(MediaType.APPLICATION_JSON_UTF8)
                     .content(this.objectMapper.writeValueAsString(eventDto)))
                 .andDo(print())
@@ -363,35 +389,49 @@ public class EventControllerTests extends BaseControllerTest {
         ;
     }
 
-
-    private Event generateEvent(int index) {
-        Event event = Event.builder()
-                .name("Spring")
-                .description("test event")
-                .beginEnrollmentDateTime(LocalDateTime.of(2019, 9, 8, 18, 57))
-                .closeEnrollmentDateTime(LocalDateTime.of(2019, 9, 8, 18, 57))
-                .beginEventDateTime(LocalDateTime.of(2019, 9, 8, 18, 57))
-                .endEventDateTime(LocalDateTime.of(2019, 9, 8, 18, 57))
-                .basePrice(100)
-                .maxPrice(200)
-                .limitOfEnrollment(100)
-                .location("노원구 중계본동")
-                .free(false)
-                .offline(true)
-                .eventStatus(EventStatus.DRAFT)
-                .build();
+    // 메소드 오버로딩
+    private Event generateEvent(int index, Account account) {
+        Event event = buildEvent();
+        event.setManager(account);
         return this.eventRepository.save(event);
     }
 
-    //Access token 을 꺼내는 method.
-    public String getAccessToken() throws Exception{
-        Account junseo = Account.builder()
-                .email(appProperties.getUserUsername())
-                .password(appProperties.getUserPassword())
-                .roles(Set.of(AccountRole.ADMIN, AccountRole.USER))
-                .build();
-        this.accountService.saveAccount(junseo);
+    private Event generateEvent(int index) {
+        Event event = buildEvent();
+        return this.eventRepository.save(event);
+    }
 
+    private Event buildEvent() {
+        return Event.builder()
+                    .name("Spring")
+                    .description("test event")
+                    .beginEnrollmentDateTime(LocalDateTime.of(2019, 9, 8, 18, 57))
+                    .closeEnrollmentDateTime(LocalDateTime.of(2019, 9, 8, 18, 57))
+                    .beginEventDateTime(LocalDateTime.of(2019, 9, 8, 18, 57))
+                    .endEventDateTime(LocalDateTime.of(2019, 9, 8, 18, 57))
+                    .basePrice(100)
+                    .maxPrice(200)
+                    .limitOfEnrollment(100)
+                    .location("노원구 중계본동")
+                    .free(false)
+                    .offline(true)
+                    .eventStatus(EventStatus.DRAFT)
+                    .build();
+    }
+
+    private String getBearerToken() throws Exception {
+        return "Bearer " + getAccessToken(true);
+    }
+
+    private String getBearerToken(boolean needToCreateAccount) throws Exception {
+        return "Bearer " + getAccessToken(needToCreateAccount);
+    }
+    //Access token 을 꺼내는 method.
+    public String getAccessToken(boolean needToCreateAccount) throws Exception{
+        //Given
+        if(needToCreateAccount) {
+            createAccount();
+        }
 
         ResultActions perform = this.mockMvc.perform(post("/oauth/token")
                 .with(httpBasic(appProperties.getClientId(),appProperties.getClientSecret())) //basic Auth 라는 header를 만듦.
@@ -406,6 +446,15 @@ public class EventControllerTests extends BaseControllerTest {
         var responseBody = perform.andReturn().getResponse().getContentAsString();
         Jackson2JsonParser parser = new Jackson2JsonParser();
         return parser.parseMap(responseBody).get("access_token").toString();
+    }
+
+    private Account createAccount() {
+        Account junseo = Account.builder()
+                .email(appProperties.getUserUsername())
+                .password(appProperties.getUserPassword())
+                .roles(Set.of(AccountRole.ADMIN, AccountRole.USER))
+                .build();
+        return this.accountService.saveAccount(junseo);
     }
 
 
